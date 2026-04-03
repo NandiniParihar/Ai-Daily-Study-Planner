@@ -1,0 +1,52 @@
+!pip install ipywidgets
+import ipywidgets as widgets
+from IPython.display import display, clear_output
+
+title = widgets.HTML("<h2> AI Daily Study Planner (CAT)</h2>")
+
+name = widgets.Text(description="Name:")
+year = widgets.Dropdown(
+    options=["CAT 2026", "CAT 2027"],
+    description="Target:"
+)
+
+study_time = widgets.Dropdown(
+    options=["2 hours", "4 hours", "6 hours"],
+    description="Study Time:"
+)
+
+weak_area = widgets.SelectMultiple(
+    options=["Quant", "LRDI", "VARC"],
+    description="Weak Areas:"
+)
+
+button = widgets.Button(description="Generate My Plan", button_style='success')
+
+output = widgets.Output()
+
+def generate_plan(b):
+    with output:
+        clear_output()
+        
+        print(f"\n Hello {name.value}, here’s your AI-generated plan:\n")
+        
+        if study_time.value == "2 hours":
+            print(" Morning: VARC Reading (30 min)")
+            print(" Evening: Quant Basics (1.5 hr)")
+        
+        elif study_time.value == "4 hours":
+            print(" Morning: Quant Practice (1.5 hr)")
+            print(" Afternoon: VARC RC (1 hr)")
+            print(" Evening: LRDI Sets (1.5 hr)")
+        
+        elif study_time.value == "6 hours":
+            print(" Morning: Quant Deep Practice (2 hr)")
+            print(" Afternoon: VARC + RC (2 hr)")
+            print(" Evening: LRDI + Revision (2 hr)")
+        
+        print("\n Focus Areas:", ", ".join(weak_area.value))
+        print(" Tip: Stay consistent and revise daily!")
+
+button.on_click(generate_plan)
+
+display(title, name, year, study_time, weak_area, button, output)
